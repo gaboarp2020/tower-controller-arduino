@@ -94,7 +94,7 @@ void setup(void)
   // Start Web Server
   server.begin();
 
-  consoleLog("Tower Control Webserver started");
+  consoleLog("\n\n\tTower Control Webserver started\n\n");
 }
 
 // LOOP
