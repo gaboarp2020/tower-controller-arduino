@@ -14,6 +14,7 @@ public:
     void begin();
     bool elevate(int direction);
     bool inclinate(int direction);
+    void stop();
 private:
     int _elevationDownPin;
     int _elevationUpPin;
@@ -21,7 +22,6 @@ private:
     int _inclinationUpPin;
     // Internal Methods
     void setup();
-    void stop();
     bool move(int action, int direction);
     bool isValidAction(int action);
     bool isValidDirection(int direction);
@@ -67,6 +67,15 @@ bool Actuator::inclinate(int direction)
     return this->move(ACTION_INCLINATION, direction);
 }
 
+void Actuator::stop()
+{
+    digitalWrite(_elevationDownPin, LOW);
+    digitalWrite(_elevationUpPin, LOW);
+
+    digitalWrite(_inclinationDownPin, LOW);
+    digitalWrite(_inclinationUpPin, LOW);
+}
+
 // Internal Methods
 
 void Actuator::setup()
@@ -76,15 +85,6 @@ void Actuator::setup()
 
     pinMode(_inclinationDownPin, OUTPUT);
     pinMode(_inclinationUpPin, OUTPUT);
-}
-
-void Actuator::stop()
-{
-    digitalWrite(_elevationDownPin, LOW);
-    digitalWrite(_elevationUpPin, LOW);
-
-    digitalWrite(_inclinationDownPin, LOW);
-    digitalWrite(_inclinationUpPin, LOW);
 }
 
 bool Actuator::move(int action, int direction)
