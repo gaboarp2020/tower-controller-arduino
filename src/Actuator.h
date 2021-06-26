@@ -120,24 +120,33 @@ bool Actuator::isValidDirection(int direction)
 
 int Actuator::getPinByActionAndDirection(int action, int direction)
 {
+    // Elevation
     if (action == ACTION_ELEVATION) 
     {
+        // Elevation Down
         if (direction == DIRECTION_DOWN)
         {
             return _elevationDownPin;
         }
-        else if (direction == DIRECTION_UP)
+
+        // Elevation Up
+        if (direction == DIRECTION_UP)
         {
             return _elevationUpPin;
         }
     }
-    else if (action == ACTION_INCLINATION)
+    
+    // Inclination
+    if (action == ACTION_INCLINATION)
     {
+        // Inclination Down
         if (direction == DIRECTION_DOWN)
         {
             return _inclinationDownPin;
         }
-        else if (direction == DIRECTION_UP)
+        
+        // Inclination Up
+        if (direction == DIRECTION_UP)
         {
             return _inclinationUpPin;
         }

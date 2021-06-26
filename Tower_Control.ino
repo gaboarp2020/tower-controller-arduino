@@ -3,7 +3,7 @@
 // HTML LOCAL CONTROL PAGE
 #include "pages/localControl.h"
 
-
+#include "src/Actuator.h"
 #include "src/Connection.h"
 #include "src/Serial.h"
 #include "src/Utils.h"
@@ -29,51 +29,62 @@
 
 #define SERIAL_PORT 115200
 
-
+Actuator actuator(ELEVATION_RELAY_UP, ELEVATION_RELAY_DOWN, INCLINATION_RELAY_UP, INCLINATION_RELAY_DOWN);
 
 Connection connection;
 
 WebServer server(80, "/ws", true);
 
-// HELPERS
+// Helpers
 
-void actuatorActions(int actuator, int action )
+void handleAction(AsyncWebServerRequest *request, int action);
 {
+  String actionName = action == ACTION_ELEVATION ? "Elevation" : "Inclination";
 
-  consoleLog("Doing stuff...");
-}
+  if (!request->hasArg("direction"))
+  {
+    // Bad Request
+    return request->send(400, "text/plain", "Invalid direction for " + actionName);
+  }
 
-void stopAll()
-{
-  consoleLog("STOP!");
+  // Arguments
+  int direction = request->arg("direction").toInt();
+
+  bool status = false;
+
+  if (action == ACTION_ELEVATION)
+  {
+    status = actuator.elevate(direction);
+  }
+  else if (action == ACTION_INCLINATION)
+  {
+    status = actuator.inclination(direction);
+  }
+
+  if (!status)
+  {
+    // Bad Request
+    return request->send(400, "text/plain", "Invalid direction for " + actionName);
+  }
+
+  return request->send(200);
 }
 
 // HTTP HANDLERS
 
 void handleElevation(AsyncWebServerRequest *request)
 {
-  stopAll();
-
-  // TODO: Elevation logic
-
-  actuatorActions(ELEVATION_ACTUATOR, UP_ACTION);
-
-  return request->send(200);
+  handleAction(request, ACTION_ELEVATION);
 }
 
 void handleInclination(AsyncWebServerRequest *request)
 {
-  stopAll();
-
-  // TODO: Inclination logic
-  actuatorActions(INCLINATION_ACTUATOR, UP_ACTION);
-
-  return request->send(200);
+  handleAction(request, ACTION_INCLINATION);
 }
 
 void handleStop(AsyncWebServerRequest *request)
 {
-  stopAll();
+  actuator.stop();
 
   return request->send(200);
 }
@@ -87,6 +98,8 @@ void setup(void)
 {
 
   setupSerial(SERIAL_PORT);
+
+  actuator.begin();
 
   connection.begin();
 
