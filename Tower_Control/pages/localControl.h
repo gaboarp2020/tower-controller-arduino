@@ -15,3 +15,5 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
 </body>
 </html>
 )rawliteral";
+
+#endif
