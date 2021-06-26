@@ -53,9 +53,6 @@ String Connection::getMode()
 
 bool Connection::setMode(String mode)
 {
-    consoleLog("Trying to save mode config");
-    consoleLog("Mode: " + mode);
-
     if (Connection::isValidMode(mode))
     {
         config.set("mode", mode);
