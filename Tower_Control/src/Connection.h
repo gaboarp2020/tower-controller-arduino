@@ -13,7 +13,7 @@
 
 // WiFi Default Credentials
 #define DEFAULT_SSID "Tower Control"
-#define DEFAULT_PASS "1234567"
+#define DEFAULT_PASS "12345678"
 
 // Model Default (AP | CLIENT)
 #define DEFAULT_MODE "AP"
