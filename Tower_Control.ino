@@ -6,8 +6,8 @@
 #include "src/Actuator.h"
 #include "src/Connection.h"
 #include "src/Serial.h"
+#include "src/TonchoServer.h"
 #include "src/Utils.h"
-#include "src/WebServer.h"
 
 // Elevetion Actions
 #define ELEVATION_RELAY_UP   14 // Elevation UP -------- GPIO14
@@ -33,7 +33,7 @@ Actuator actuator(ELEVATION_RELAY_UP, ELEVATION_RELAY_DOWN, INCLINATION_RELAY_UP
 
 Connection connection;
 
-WebServer server(80, "/ws", true);
+TonchoServer server(80, "/ws", true);
 
 // Helpers
 
