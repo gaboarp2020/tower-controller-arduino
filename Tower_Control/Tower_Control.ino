@@ -17,7 +17,7 @@ TonchoServer server(SERVER_PORT, WEB_SOCKET_PATH, true);
 
 // Helpers
 
-void handleAction(AsyncWebServerRequest *request, int action);
+void handleAction(AsyncWebServerRequest *request, int action)
 {
   String actionName = action == ACTION_ELEVATION ? "Elevation" : "Inclination";
 
@@ -38,7 +38,7 @@ void handleAction(AsyncWebServerRequest *request, int action);
   }
   else if (action == ACTION_INCLINATION)
   {
-    status = actuator.inclination(direction);
+    status = actuator.inclinate(direction);
   }
 
   if (!status)

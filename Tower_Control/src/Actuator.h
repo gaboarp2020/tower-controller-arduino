@@ -15,6 +15,7 @@ public:
     bool elevate(int direction);
     bool inclinate(int direction);
     void stop();
+
 private:
     int _elevationDownPin;
     int _elevationUpPin;
@@ -26,7 +27,7 @@ private:
     bool isValidAction(int action);
     bool isValidDirection(int direction);
     int getPinByActionAndDirection(int action, int direction);
-}
+};
 
 Actuator::Actuator(int elevationUpPin, int elevationDownPin, int inclinationUpPin, int inclinationDownPin)
 {
@@ -110,7 +111,7 @@ bool Actuator::move(int action, int direction)
 
 bool Actuator::isValidAction(int action)
 {
-    return action == ACTION_ELEVATION || action === ACTION_INCLINATION;
+    return action == ACTION_ELEVATION || action == ACTION_INCLINATION;
 }
 
 bool Actuator::isValidDirection(int direction)
@@ -121,7 +122,7 @@ bool Actuator::isValidDirection(int direction)
 int Actuator::getPinByActionAndDirection(int action, int direction)
 {
     // Elevation
-    if (action == ACTION_ELEVATION) 
+    if (action == ACTION_ELEVATION)
     {
         // Elevation Down
         if (direction == DIRECTION_DOWN)
@@ -135,7 +136,7 @@ int Actuator::getPinByActionAndDirection(int action, int direction)
             return _elevationUpPin;
         }
     }
-    
+
     // Inclination
     if (action == ACTION_INCLINATION)
     {
@@ -144,7 +145,7 @@ int Actuator::getPinByActionAndDirection(int action, int direction)
         {
             return _inclinationDownPin;
         }
-        
+
         // Inclination Up
         if (direction == DIRECTION_UP)
         {
