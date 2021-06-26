@@ -1,4 +1,4 @@
-#define DEBUG
+#include "Config.h"
 
 // HTML LOCAL CONTROL PAGE
 #include "pages/localControl.h"
@@ -9,31 +9,11 @@
 #include "src/TonchoServer.h"
 #include "src/Utils.h"
 
-// Elevetion Actions
-#define ELEVATION_RELAY_UP   14 // Elevation UP -------- GPIO14
-#define ELEVATION_RELAY_DOWN 12 // Elevation DOWN ------ GPIO12
-
-// Inclination Actions
-#define INCLINATION_RELAY_UP   13 // Inclination UP ------ GPIO13
-#define INCLINATION_RELAY_DOWN 15 // Inclination DOWN ---- GPIO15
-
-#define INTERVAL 1000 // interval at which to update ws (ms)
-
-#define SERIAL_PORT 115200
-
-#define UP_ACTION 1
-#define DOWN_ACTION 2
-
-#define ELEVATION_ACTUATOR 1
-#define INCLINATION_ACTUATOR 2
-
-#define SERIAL_PORT 115200
-
 Actuator actuator(ELEVATION_RELAY_UP, ELEVATION_RELAY_DOWN, INCLINATION_RELAY_UP, INCLINATION_RELAY_DOWN);
 
 Connection connection;
 
-TonchoServer server(80, "/ws", true);
+TonchoServer server(SERVER_PORT, WEB_SOCKET_PATH, true);
 
 // Helpers
 
