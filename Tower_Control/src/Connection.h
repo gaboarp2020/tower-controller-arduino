@@ -100,6 +100,9 @@ void Connection::clearConfig()
 
 void Connection::begin()
 {
+    // Force (temporary) the mode
+    Connection::setMode(DEFAULT_MODE);
+
     String mode = Connection::getMode();
 
     consoleLog("Mode: " + mode);
