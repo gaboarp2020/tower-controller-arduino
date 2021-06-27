@@ -9,7 +9,7 @@
 #include "src/TonchoServer.h"
 #include "src/Utils.h"
 
-Actuator actuator(ELEVATION_RELAY_UP, ELEVATION_RELAY_DOWN, INCLINATION_RELAY_UP, INCLINATION_RELAY_DOWN);
+Actuator actuator(ELEVATION_RELAY_UP, ELEVATION_RELAY_DOWN, INCLINATION_RELAY_UP, INCLINATION_RELAY_DOWN, RELAY_NO);
 
 Connection connection;
 
