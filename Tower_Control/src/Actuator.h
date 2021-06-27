@@ -21,6 +21,7 @@ private:
     int _elevationUpPin;
     int _inclinationDownPin;
     int _inclinationUpPin;
+    bool _relayNO;
     // Internal Methods
     void setup();
     bool move(int action, int direction);
@@ -29,7 +30,7 @@ private:
     int getPinByActionAndDirection(int action, int direction);
 };
 
-Actuator::Actuator(int elevationUpPin, int elevationDownPin, int inclinationUpPin, int inclinationDownPin)
+Actuator::Actuator(int elevationUpPin, int elevationDownPin, int inclinationUpPin, int inclinationDownPin, bool relayNO)
 {
     // Elevation Pins
     _elevationDownPin = elevationDownPin;
@@ -70,11 +71,11 @@ bool Actuator::inclinate(int direction)
 
 void Actuator::stop()
 {
-    digitalWrite(_elevationDownPin, HIGH);
-    digitalWrite(_elevationUpPin, HIGH);
+    digitalWrite(_elevationDownPin, _relayNO ? LOW : HIGH);
+    digitalWrite(_elevationUpPin, _relayNO ? LOW : HIGH);
 
-    digitalWrite(_inclinationDownPin, HIGH);
-    digitalWrite(_inclinationUpPin, HIGH);
+    digitalWrite(_inclinationDownPin, _relayNO ? LOW : HIGH);
+    digitalWrite(_inclinationUpPin, _relayNO ? LOW : HIGH);
 }
 
 // Internal Methods
@@ -104,7 +105,7 @@ bool Actuator::move(int action, int direction)
         return false;
     }
 
-    digitalWrite(pin, LOW);
+    digitalWrite(pin, _relayNO ? HIGH : LOW);
 
     return true;
 }
