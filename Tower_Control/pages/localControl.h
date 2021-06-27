@@ -238,10 +238,9 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
         const request = async (path, args = {}) => {
           args.headers = args.headers || {};
 
-          // return fetch(`${BASE_URL}${path}`, args)
-          //   .then(formatResponse)
-          //   .catch(catchError);
-          return;
+          return fetch(`${BASE_URL}${path}`, args)
+            .then(formatResponse)
+            .catch(catchError);
         };
 
         const queryStringify = (query) => {
