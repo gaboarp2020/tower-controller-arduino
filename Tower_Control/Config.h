@@ -12,3 +12,5 @@
 #define WEB_SOCKET_PATH "/ws"
 
 #define SERIAL_PORT 115200
+
+#define RELAY_NO false
