@@ -10,7 +10,7 @@
 class Actuator
 {
 public:
-    Actuator(int elevationUpPin, int elevationDownPin, int inclinationUpPin, int inclinationDownPin);
+    Actuator(int elevationUpPin, int elevationDownPin, int inclinationUpPin, int inclinationDownPin, bool relayNO);
     void begin();
     bool elevate(int direction);
     bool inclinate(int direction);
@@ -39,6 +39,9 @@ Actuator::Actuator(int elevationUpPin, int elevationDownPin, int inclinationUpPi
     // Inclination Pins
     _inclinationDownPin = inclinationDownPin;
     _inclinationUpPin = inclinationUpPin;
+
+    // Relay Mode
+    _relayNO = relayNO;
 }
 
 // Public Methods
