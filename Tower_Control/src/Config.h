@@ -58,7 +58,7 @@ void Config::clearByScope(const char* scope)
 
 String Config::get(const char* key, const char* defaultValue = "")
 {
-  Preferences preferences;
+  Preferences preferences;               
   preferences.begin(_scope, true);
   String value = preferences.getString(key, defaultValue);
   preferences.end();

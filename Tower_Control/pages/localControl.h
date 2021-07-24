@@ -194,7 +194,7 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         // GET Method
-        const BASE_URL = "http://192.168.4.1";
+        const BASE_URL = "/";
 
         const getHeaders = {
           Accept: "text/plain",
@@ -263,6 +263,11 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
         // Constants
         const DIRECTION_UP = 1;
         const DIRECTION_DOWN = 2;
+
+        // State
+        const state = {
+          activeAction: false,
+        };
 
         // DOM Elements
         const actionButtons = {
@@ -337,10 +342,10 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
         const displayActionMessage = (actionButton) => {
           switch (actionButton.id) {
             case 'elevation-up-button': 
-              actionMessage.textContent = 'Elevando hacia arriba...';
+              actionMessage.textContent = 'Elevando torre...';
               break;
             case 'elevation-down-button': 
-              actionMessage.textContent = 'Elevando hacia abajo...';
+              actionMessage.textContent = 'Bajando torre...';
               break;
             case 'inclination-up-button': 
               actionMessage.textContent = 'Inclinando hacia arriba...';
@@ -370,16 +375,14 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
         };
 
         const handleActions = async (uri, params = null, actionButton) => {
+          if (state.activeAction) {
+            return;
+          }
+          
           try {
-            if (uri === "/stop") {
-              await get(uri);
-              clearActionMessage();
-              stopAction();
-              clearInterval(chronometer.timer);
-              return;
-            }
-
             await get(uri, params);
+            
+            state.activeAction = true;
             displayActionMessage(actionButton)
             addActiveClassTo(actionButton);
             disableUnactiveActionButtons();
@@ -394,7 +397,7 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
         // HTTP Handlers
         const handleElevationUp = () => {
           handleActions(
-            "/elevation",
+            "elevation",
             { direction: DIRECTION_UP },
             actionButtons.elevationUp
           );
@@ -402,7 +405,7 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
 
         const handleElevationDown = () => {
           handleActions(
-            "/elevation",
+            "elevation",
             { direction: DIRECTION_DOWN },
             actionButtons.elevationDown
           );
@@ -410,7 +413,7 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
 
         const handleInclinationUp = () => {
           handleActions(
-            "/inclination",
+            "inclination",
             { direction: DIRECTION_UP },
             actionButtons.inclinationUp
           );
@@ -418,14 +421,23 @@ const char LOCAL_CONTROL_PAGE[] PROGMEM =  R"rawliteral(
 
         const handleInclinationDown = () => {
           handleActions(
-            "/inclination",
+            "inclination",
             { direction: DIRECTION_DOWN },
             actionButtons.inclinationDown
           );
         };
 
-        const handleStop = () => {
-          handleActions("/stop");
+        const handleStop = async () => {
+            try {
+                await get("stop");
+
+                state.activeAction = false;
+                clearActionMessage();
+                stopAction();
+                clearInterval(chronometer.timer);
+            } catch (error) {
+                console.log(error);
+            }
         };
 
         // DOM Events

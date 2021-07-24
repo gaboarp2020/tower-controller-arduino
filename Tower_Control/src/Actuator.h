@@ -74,11 +74,11 @@ bool Actuator::inclinate(int direction)
 
 void Actuator::stop()
 {
-    digitalWrite(_elevationDownPin, _relayNO ? LOW : HIGH);
-    digitalWrite(_elevationUpPin, _relayNO ? LOW : HIGH);
+    digitalWrite(_elevationDownPin, _relayNO ? HIGH : LOW);
+    digitalWrite(_elevationUpPin, _relayNO ? HIGH : LOW);
 
-    digitalWrite(_inclinationDownPin, _relayNO ? LOW : HIGH);
-    digitalWrite(_inclinationUpPin, _relayNO ? LOW : HIGH);
+    digitalWrite(_inclinationDownPin, _relayNO ? HIGH : LOW);
+    digitalWrite(_inclinationUpPin, _relayNO ? HIGH : LOW);
 }
 
 // Internal Methods
@@ -108,7 +108,7 @@ bool Actuator::move(int action, int direction)
         return false;
     }
 
-    digitalWrite(pin, _relayNO ? HIGH : LOW);
+    digitalWrite(pin, _relayNO ? LOW : HIGH);
 
     return true;
 }
