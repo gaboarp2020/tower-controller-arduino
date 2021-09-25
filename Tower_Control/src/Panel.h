@@ -42,11 +42,17 @@ class Panel
 public:
     Panel();
     void bootPage();
+    void displayUpArrow();
+    void displayDownArrow();
+    void displayFrontArrow();
+    void displayBackArrow();
+    void displayStop();
     void elevateUpPage();
     void elevateDownPage();
     void inclinateUpPage();
     void inclinateDownPage();
     void mainPage();
+    void stopPage();
     void begin();
     void loop();
     void navigate(String page);
@@ -120,6 +126,10 @@ void Panel::render()
     {
         this->inclinateDownPage();
     }
+    else if (router.current() == PAGE_STOP)
+    {
+        this->stopPage();
+    }
     else if (router.current() == PAGE_MAIN)
     {
         this->mainPage();
@@ -155,6 +165,7 @@ void Panel::inactivityRedirect()
             || router.current() == PAGE_ELEVATE_DOWN
             || router.current() == PAGE_INCLINATE_UP
             || router.current() == PAGE_INCLINATE_DOWN
+            || router.current() == PAGE_STOP
             || router.current() == PAGE_MAIN
         )
     {
@@ -192,8 +203,7 @@ void Panel::mainPage()
     {
         _screen->clear();
         _screen->normalDisplay();
-        _screen->drawRect(59, 20, 30, 10);
-        // _screen->text(0, 0, "Tower at rest");
+        _screen->text(0, 0, "Tower at rest");
         _screen->display();
     }
 }
@@ -204,8 +214,8 @@ void Panel::elevateUpPage()
     {
         _screen->clear();
         _screen->invertDisplay();
-        _screen->drawRect(59, 20, 30, 10);
-        // _screen->text(0, 0, "Elevating tower...");
+        this->displayUpArrow();
+        _screen->text(56, 45, "UP");
         _screen->display();
     }
 }
@@ -216,7 +226,8 @@ void Panel::elevateDownPage()
     {
         _screen->clear();
         _screen->invertDisplay();
-        _screen->text(0, 0, "Descending tower...");
+        this->displayDownArrow();
+        _screen->text(52, 45, "DOWN");
         _screen->display();
     }
 }
@@ -227,7 +238,8 @@ void Panel::inclinateUpPage()
     {
         _screen->clear();
         _screen->invertDisplay();
-        _screen->text(0, 0, "Leaning tower up...");
+        this->displayFrontArrow();
+        _screen->text(50, 45, "FRONT");
         _screen->display();
     }
 }
@@ -238,7 +250,20 @@ void Panel::inclinateDownPage()
     {
         _screen->clear();
         _screen->invertDisplay();
-        _screen->text(0, 0, "Leaning tower down...");
+        this->displayBackArrow();
+        _screen->text(50, 45, "BACK");
+        _screen->display();
+    }
+}
+
+void Panel::stopPage()
+{
+    if (!_partialRender)
+    {
+        _screen->clear();
+        _screen->normalDisplay();
+        this->displayStop();
+        _screen->text(52, 45, "STOP");
         _screen->display();
     }
 }
@@ -292,6 +317,41 @@ void Panel::panelHeader()
     _screen->text(0, 15, "NOKIA");
     _screen->text(0, 30, "Tower Control");
     _screen->text(0, 45, VERSION);
+}
+
+// Display Arrows functions
+void Panel::displayUpArrow()
+{
+    _screen->fillRect(60, 20, 8, 20);
+    _screen->fillTriangle(56, 20, 64, 5, 72, 20);
+}
+
+void Panel::displayDownArrow()
+{
+    _screen->fillRect(60, 5, 8, 20);
+    _screen->fillTriangle(56, 25, 64, 40, 72, 25);
+}
+
+void Panel::displayFrontArrow()
+{
+    _screen->fillRect(54, 15, 13, 8);
+    _screen->fillRect(49, 19, 8, 20);
+    _screen->fillCircle(53, 19, 4);
+    _screen->fillTriangle(66, 11, 81, 19, 66, 27);
+}
+
+void Panel::displayBackArrow()
+{
+    _screen->fillRect(51, 13, 8, 13);
+    _screen->fillRect(55, 9, 20, 8);
+    _screen->fillCircle(55, 13, 4);
+    _screen->fillTriangle(47, 26, 55, 41, 64, 26);
+}
+
+void Panel::displayStop()
+{
+    _screen->fillRect(55, 14, 8, 20);
+    _screen->fillRect(66, 14, 8, 20);
 }
 
 #endif
