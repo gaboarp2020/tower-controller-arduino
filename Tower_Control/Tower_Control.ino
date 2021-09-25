@@ -7,12 +7,15 @@
 #include "src/Connection.h"
 #include "src/Panel.h"
 #include "src/Serial.h"
+#include "src/Timer.h"
 #include "src/TonchoServer.h"
 #include "src/Utils.h"
 
 Actuator actuator(ELEVATION_RELAY_UP, ELEVATION_RELAY_DOWN, INCLINATION_RELAY_UP, INCLINATION_RELAY_DOWN, RELAY_NO);
 
 Connection connection;
+
+Timer timer(TIMER_CONTROL_RELAY, MILLISECONDS, RELAY_NO);
 
 TonchoServer server(SERVER_PORT, WEB_SOCKET_PATH, true);
 
@@ -76,6 +79,7 @@ void handleLocalControl(AsyncWebServerRequest *request)
 void handleElevation(AsyncWebServerRequest *request)
 {
   handleAction(request, ACTION_ELEVATION);
+  timer.start();
 }
 
 void handleInclination(AsyncWebServerRequest *request)
@@ -86,7 +90,8 @@ void handleInclination(AsyncWebServerRequest *request)
 void handleStop(AsyncWebServerRequest *request)
 {
   actuator.stop();
-  panel.navigate(PAGE_MAIN);
+  timer.stop();
+  panel.navigate(PAGE_STOP);
 
   return request->send(200, "text/plain", "stop");
 }
@@ -102,6 +107,8 @@ void setup(void)
   setupSerial(SERIAL_PORT);
 
   actuator.begin();
+
+  timer.begin();
 
   connection.begin();
 
@@ -126,4 +133,5 @@ void setup(void)
 void loop(void)
 {
   panel.loop();
+  timer.loop();
 }
