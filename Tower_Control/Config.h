@@ -5,8 +5,12 @@
 #define ELEVATION_RELAY_DOWN 12 // Elevation DOWN ------ GPIO12
 
 // Inclination Actions
-#define INCLINATION_RELAY_UP   13 // Inclination UP ------ GPIO13
-#define INCLINATION_RELAY_DOWN 15 // Inclination DOWN ---- GPIO15
+#define INCLINATION_RELAY_UP   13 // Inclination UP ---- GPIO13
+#define INCLINATION_RELAY_DOWN 15 // Inclination DOWN -- GPIO15
+
+// Timer Control
+#define MILLISECONDS   10000 // 10 Seconds
+#define TIMER_CONTROL_RELAY 33 // Timer control pin ---- GPIO33
 
 #define SCREEN_ORIENTATION 1
 #define SCREEN_FORCE_REFRESH_INTERVAL 1000
