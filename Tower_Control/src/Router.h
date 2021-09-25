@@ -8,6 +8,7 @@
 #define PAGE_INCLINATE_UP "inclinateUp"
 #define PAGE_INCLINATE_DOWN "inclinateDown"
 #define PAGE_MAIN "main"
+#define PAGE_STOP "stop"
 
 class Router
 {
@@ -51,6 +52,7 @@ bool Router::isValidPage(String page)
            page == PAGE_ELEVATE_DOWN ||
            page == PAGE_INCLINATE_UP ||
            page == PAGE_INCLINATE_DOWN ||
+           page == PAGE_STOP ||
            page == PAGE_MAIN;
 }
 
