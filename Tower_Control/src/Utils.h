@@ -54,4 +54,36 @@ bool isValidWiFiPassword(String password)
   return length > 7 && length < 64;
 }
 
+String getChipId()
+{
+  uint32_t chipId = 0;
+
+  for (int i = 0; i < 17; i = i + 8)
+  {
+    chipId |= ((ESP.getEfuseMac() >> (40 - i)) & 0xff) << i;
+  }
+
+  return String(chipId);
+}
+
+String stringToMD5(String v)
+{
+
+  // Length (with one extra character for the null terminator)
+  int str_len = v.length() + 1;
+  // Prepare the character array (the buffer)
+  char value[str_len];
+  // Copy it over
+  v.toCharArray(value, str_len);
+
+  unsigned char *hash = MD5::make_hash(value);
+  //generate the digest (hex encoding) of our hash
+  char *md5str = MD5::make_digest(hash, 16);
+  free(hash);
+
+  String result = String(md5str);
+
+  return result;
+}
+
 #endif
