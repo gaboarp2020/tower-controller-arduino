@@ -30,3 +30,6 @@
 #define SERIAL_PORT 115200
 
 #define RELAY_NO false
+
+// The Chip ID MD5 to check if the software have been cloned
+#define CHIPID_MD5 "2beec7ba50a9b400c6d8016cb5098b0c"

@@ -7,18 +7,16 @@
 #include "src/Connection.h"
 #include "src/Panel.h"
 #include "src/Serial.h"
+#include "src/SoftwareClone.h"
 #include "src/Timer.h"
 #include "src/TonchoServer.h"
 #include "src/Utils.h"
 
+SoftwareClone softwareClone(CHIPID_MD5);
 Actuator actuator(ELEVATION_RELAY_UP, ELEVATION_RELAY_DOWN, INCLINATION_RELAY_UP, INCLINATION_RELAY_DOWN, RELAY_NO);
-
 Connection connection;
-
 Timer timer(TIMER_CONTROL_RELAY, MILLISECONDS, RELAY_NO);
-
 TonchoServer server(SERVER_PORT, WEB_SOCKET_PATH, true);
-
 Panel panel;
 
 // Helpers
@@ -103,8 +101,15 @@ void handleConfig(AsyncWebServerRequest *request)
 
 void setup(void)
 {
-
   setupSerial(SERIAL_PORT);
+
+  consoleLog("Chip ID: " + getChipId());
+
+  if (softwareClone.isCloned())
+  {
+    delay(1000);
+    restart();
+  }
 
   actuator.begin();
 
