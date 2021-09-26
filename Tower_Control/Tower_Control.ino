@@ -148,8 +148,8 @@ void setup(void)
   server.get("/stop", handleStop);
   server.get("/config", handleConfig);
 
-  webServer.page("/admin", AP_CRENDENTIALS_PAGE);
-  webServer.get("/save_ap", handleSaveAPConfg);
+  server.page("/admin", AP_CRENDENTIALS_PAGE);
+  server.get("/save_ap", handleSaveAPConfg);
 
   server.page("/local_control", LOCAL_CONTROL_PAGE);
 

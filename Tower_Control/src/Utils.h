@@ -2,6 +2,7 @@
 #define Utils_h
 
 #include <FunctionalInterrupt.h>
+#include <MD5.h>
 
 String charToString(const char C[])
 {
