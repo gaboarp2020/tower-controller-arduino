@@ -2,6 +2,8 @@
 
 // HTML LOCAL CONTROL PAGE
 #include "pages/localControl.h"
+// HTML ADMIN CONFIG PAGE
+#include "pages/apCredentials.h"
 
 #include "src/Actuator.h"
 #include "src/Connection.h"
@@ -99,6 +101,28 @@ void handleConfig(AsyncWebServerRequest *request)
   return request->send(200, "text/plain");
 }
 
+void handleSaveAPConfg(AsyncWebServerRequest *request)
+{
+  if (request->hasArg("ssid") && request->hasArg("password"))
+  {
+    // Arguments
+    String ssid = request->arg("ssid");
+    String password = request->arg("password");
+
+    bool success = connection.setAPConfig(ssid, password);
+
+    if (success)
+    {
+      request->send(200);
+      restart();
+      return;
+    }
+  }
+
+  request->send(400, "text/plain", "Bad Request");
+}
+
+
 void setup(void)
 {
   setupSerial(SERIAL_PORT);
@@ -123,6 +147,9 @@ void setup(void)
   server.get("/inclination", handleInclination);
   server.get("/stop", handleStop);
   server.get("/config", handleConfig);
+
+  webServer.page("/admin", AP_CRENDENTIALS_PAGE);
+  webServer.get("/save_ap", handleSaveAPConfg);
 
   server.page("/local_control", LOCAL_CONTROL_PAGE);
 
